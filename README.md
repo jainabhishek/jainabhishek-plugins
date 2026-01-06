@@ -153,16 +153,24 @@ You: You missed SQL injection - always check for that
 
 You: /reflect
 
-Claude: HIGH: "Always check for SQL injections"
+Claude: 📊 Signals Detected:
 
-        Proposed for security-review.md:
-        + - Validate all database queries for SQL injection
+        HIGH CONFIDENCE:
+        - "Always check for SQL injection"
 
-        Accept? [Y/n]
+        📝 Proposed Changes to security.md:
+
+        + ## Security
+        + - Always validate database queries for SQL injection
+
+        💬 Commit message: "Add SQL injection validation rule"
+
+        Accept changes? [Y/n/edit with natural language]
 
 You: Y
 
-Claude: Updated security-review.md
+Claude: ✅ Updated security.md
+        📤 Committed: "Add SQL injection validation rule"
 ```
 
 Next session: Claude automatically checks for SQL injection.
