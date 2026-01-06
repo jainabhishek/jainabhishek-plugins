@@ -101,21 +101,7 @@ When enabled, the stop hook triggers automatic learning:
 
 ### Hook Configuration
 
-Add to `.claude/settings.json`:
-
-```json
-{
-  "hooks": {
-    "stop": [{
-      "matcher": "",
-      "hooks": [{
-        "type": "command",
-        "command": "${CLAUDE_PLUGIN_ROOT}/skills/reflect/scripts/reflect-hook.sh"
-      }]
-    }]
-  }
-}
-```
+The session-end hook is **auto-registered** when you install this plugin. No manual configuration needed.
 
 State stored in `~/.claude/.reflect-state` (enabled/disabled).
 

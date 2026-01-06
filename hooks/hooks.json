@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/skills/reflect/scripts/reflect-hook.sh",
+            "timeout": 30,
+            "description": "Trigger automatic reflection when session ends (if enabled)"
+          }
+        ]
+      }
+    ]
+  }
+}
