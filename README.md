@@ -1,8 +1,20 @@
-# Reflect Skill
+# jainabhishek-plugins
 
-A self-improving skill for Claude Code that learns from your corrections and remembers them across sessions.
+A collection of Claude Code plugins for productivity and code quality.
+
+## Plugins
+
+### Reflect
+
+A self-improving skill that learns from your corrections and remembers them across sessions.
 
 **Correct Claude once, never again.**
+
+### PR Review
+
+A comprehensive PR review workflow that runs specialized review agents, verifies issues against the base branch, and implements fixes with your approval. See [plugins/pr-review/README.md](plugins/pr-review/README.md) for details.
+
+---
 
 ## What It Does
 

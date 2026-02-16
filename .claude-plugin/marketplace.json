@@ -27,6 +27,25 @@
         "productivity"
       ],
       "category": "productivity"
+    },
+    {
+      "name": "pr-review",
+      "source": "./plugins/pr-review",
+      "description": "PR review workflow that runs review agents, verifies issues against the base branch, and implements fixes with approval",
+      "version": "1.0.0",
+      "author": {
+        "name": "Abhishek Jain"
+      },
+      "license": "MIT",
+      "keywords": [
+        "pr-review",
+        "code-review",
+        "workflow",
+        "quality",
+        "verification",
+        "automated-review"
+      ],
+      "category": "workflow"
     }
   ]
 }
