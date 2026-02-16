@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "PR review workflow that runs review agents, verifies issues against the base branch, and implements fixes with approval",
   "author": "jainabhishek",
-  "repository": "https://github.com/jainabhishek/reflect-skill",
+  "repository": "https://github.com/jainabhishek/jainabhishek-plugins",
   "license": "MIT",
   "keywords": [
     "pr-review",
