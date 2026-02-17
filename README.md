@@ -1,6 +1,30 @@
 # jainabhishek-plugins
 
-A collection of Claude Code plugins for productivity and code quality.
+Claude Code plugins for productivity and code quality.
+
+## Installation
+
+Subscribe to the marketplace (one-time):
+
+```bash
+/plugin marketplace add jainabhishek/jainabhishek-plugins
+```
+
+Then install any plugin:
+
+```bash
+/plugin install reflect@jainabhishek-plugins
+/plugin install pr-review@jainabhishek-plugins
+```
+
+Or install directly without subscribing:
+
+```bash
+/plugin add jainabhishek/jainabhishek-plugins
+/plugin add jainabhishek/jainabhishek-plugins --plugin pr-review
+```
+
+---
 
 ## Plugins
 
@@ -10,118 +34,27 @@ A self-improving skill that learns from your corrections and remembers them acro
 
 **Correct Claude once, never again.**
 
-### PR Review
-
-A comprehensive PR review workflow that runs specialized review agents, verifies issues against the base branch, and implements fixes with your approval. See [plugins/pr-review/README.md](plugins/pr-review/README.md) for details.
-
----
-
-## What It Does
+#### How It Works
 
 When you correct Claude ("No, always use `const` not `let`" or "Never commit directly to main"), Reflect extracts these learnings and saves them to skill files. Next session, Claude automatically applies what it learned.
 
-## Installation
-
-### Direct install (recommended)
-
-```bash
-/plugin add jainabhishek/reflect-skill
+```
+Session 1: You correct Claude  →  /reflect  →  Saves to skill files
+Session 2: Claude loads skill files at startup  →  Applies learnings automatically
 ```
 
-### Via marketplace
-
-Subscribe to the marketplace first (one-time):
-
-```bash
-/plugin marketplace add jainabhishek/reflect-skill
-```
-
-Then install the plugin:
-
-```bash
-/plugin install reflect@jainabhishek-plugins
-```
-
-### Local install
-
-```bash
-git clone https://github.com/jainabhishek/reflect-skill.git
-/plugin add ./reflect-skill
-```
-
-## Usage
-
-### Manual Reflection
-
-After a session where you made corrections:
+#### Usage
 
 ```
-/reflect
+/reflect           # Analyze conversation and extract learnings
+reflect on         # Enable auto-learning on session end
+reflect off        # Disable auto-learning
+reflect status     # Check current mode
 ```
 
-Claude will:
-1. Analyze the conversation for corrections and preferences
-2. Show you what it learned (categorized by confidence)
-3. Ask for approval before saving
-4. Update your skill files
+#### How Continuous Learning Works
 
-### Automatic Reflection
-
-Enable auto-learning on every session end:
-
-```
-reflect on      # Enable
-reflect off     # Disable
-reflect status  # Check current mode
-```
-
-The session-end hook is **auto-registered** when you install this plugin—no manual setup needed.
-
-## How Continuous Learning Works
-
-Claude doesn't have persistent memory between sessions. Instead, Reflect uses **external memory** through skill files:
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    THE LEARNING LOOP                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   Session 1                                                 │
-│   ─────────                                                 │
-│   You: "Review auth code"                                   │
-│   Claude: [misses SQL injection]                            │
-│   You: "Always check for SQL injection!"  ◄── CORRECTION   │
-│   You: "/reflect"                                           │
-│        │                                                    │
-│        ▼                                                    │
-│   ┌────────────────────────────┐                            │
-│   │ ~/.claude/skills/          │                            │
-│   │   security.md              │ ◄── SKILL FILE UPDATED     │
-│   │   + Check for SQL injection│                            │
-│   └────────────────────────────┘                            │
-│                                                             │
-│   Session 2 (NEW SESSION)                                   │
-│   ───────────────────────                                   │
-│   Claude loads skills at startup ◄── READS SKILL FILES     │
-│        │                                                    │
-│        ▼                                                    │
-│   You: "Review auth code"                                   │
-│   Claude: [NOW checks for SQL injection automatically]      │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
-
-### The Mechanism
-
-| Step | What Happens |
-|------|--------------|
-| 1. **Correction** | You correct Claude during a session |
-| 2. **Extract** | `/reflect` extracts the correction as text |
-| 3. **Persist** | Saves to a `.md` skill file on your filesystem |
-| 4. **Load** | Next session, Claude reads skill files at startup |
-| 5. **Apply** | Claude follows instructions in those files |
-
-### Where Learnings Live
+This is **not** model fine-tuning. Reflect writes human-readable instructions to files that Claude reads at the start of each session — like a growing instruction manual.
 
 ```
 ~/.claude/skills/
@@ -131,13 +64,7 @@ Claude doesn't have persistent memory between sessions. Instead, Reflect uses **
 └── project-x.md       # Project-specific preferences
 ```
 
-### Important Note
-
-This is **not** model fine-tuning. Reflect works by writing human-readable instructions to files that Claude reads at the start of each session—like building a growing instruction manual that Claude consults every time.
-
-## Signal Detection
-
-Reflect categorizes learnings by confidence:
+#### Signal Detection
 
 | Confidence | Source | Examples |
 |------------|--------|----------|
@@ -145,47 +72,32 @@ Reflect categorizes learnings by confidence:
 | **MEDIUM** | Success patterns | Approaches that worked after iteration |
 | **LOW** | Implied preferences | Patterns to review later |
 
-## Learning Categories
+---
 
-| Category | Examples |
-|----------|----------|
-| Code Style | Naming conventions, formatting |
-| Security | Input validation, SQL injection checks |
-| Testing | Coverage requirements, edge cases |
-| API Design | Endpoint conventions, responses |
-| UI/UX | Component usage, accessibility |
-| Workflow | PR process, commit format |
+### PR Review
 
-## Example
+A comprehensive PR review workflow that runs specialized review agents, verifies issues against the base branch, and implements fixes with your approval.
+
+#### Usage
 
 ```
-You: Review the auth module
-Claude: [Reviews code]
-You: You missed SQL injection - always check for that
-
-You: /reflect
-
-Claude: 📊 Signals Detected:
-
-        HIGH CONFIDENCE:
-        - "Always check for SQL injection"
-
-        📝 Proposed Changes to security.md:
-
-        + ## Security
-        + - Always validate database queries for SQL injection
-
-        💬 Commit message: "Add SQL injection validation rule"
-
-        Accept changes? [Y/n/edit with natural language]
-
-You: Y
-
-Claude: ✅ Updated security.md
-        📤 Committed: "Add SQL injection validation rule"
+/pr-review
 ```
 
-Next session: Claude automatically checks for SQL injection.
+#### Workflow
+
+1. **Run review agents** — Code quality, security, architecture, tests, and comments
+2. **Verify against base branch** — Discard pre-existing issues, keep only new ones
+3. **Present fix plan** — Numbered list of verified issues grouped by severity
+4. **Wait for approval** — Choose which fixes to apply (all, specific numbers, or none)
+5. **Implement fixes** — Apply changes and run lint/build to verify
+6. **Re-verify** — Confirm all issues are resolved
+
+#### Why Verification Matters
+
+Most review tools flag every issue they find, including problems that existed long before your changes. This plugin cross-references each finding against the base branch so you only see issues **you** introduced. No noise, no false positives from legacy code.
+
+---
 
 ## License
 

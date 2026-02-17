@@ -7,14 +7,14 @@ A comprehensive PR review workflow for Claude Code that runs specialized review 
 ### Via marketplace
 
 ```bash
-/plugin marketplace add jainabhishek/reflect-skill
+/plugin marketplace add jainabhishek/jainabhishek-plugins
 /plugin install pr-review@jainabhishek-plugins
 ```
 
 ### Direct install
 
 ```bash
-/plugin add jainabhishek/reflect-skill --plugin pr-review
+/plugin add jainabhishek/jainabhishek-plugins --plugin pr-review
 ```
 
 ## Usage
